@@ -1,0 +1,52 @@
+version: '3.7'
+
+networks:
+  traefik:
+    name: traefik
+
+secrets:
+  EXAMPLE_PASSWORD:
+    name: example-password-v1
+    external: true
+
+volumes:
+  jenkins-home:
+
+services:
+  traefik:
+    image: traefik:v2.1.2
+    command: |-
+      --providers.docker=true
+      --providers.docker.swarmMode=true
+      --providers.docker.exposedByDefault=false
+      --entrypoints.http.address=:80
+    ports:
+      - 80:80
+    networks:
+      - traefik
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    deploy:
+      mode: global
+      placement:
+        constraints:
+          - node.role == manager
+
+  jenkins:
+    image: jenkins-casc:1.0
+    environment:
+      - JENKINS_OPTS=--prefix=/jenkins
+    networks:
+      - traefik
+    secrets:
+      - EXAMPLE_PASSWORD
+    volumes:
+      - jenkins-home:/var/jenkins_home
+    deploy:
+      labels:
+        - "traefik.enable=true"
+        - "traefik.docker.network=traefik"
+        - "traefik.http.routers.jenkins.rule=HostRegexp(`{.+}`) && PathPrefix(`/jenkins`)"
+        - "traefik.http.services.jenkins.loadbalancer.server.port=8080"
+        - "traefik.http.routers.jenkins.entrypoints=http"
+  

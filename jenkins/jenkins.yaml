@@ -1,0 +1,43 @@
+credentials:
+  system:
+    domainCredentials:
+    - credentials:
+      - usernamePassword:
+          id: "example-password"
+          password: ${EXAMPLE_PASSWORD}
+          scope: GLOBAL
+          username: "example-password"
+          description: "Example password"        
+
+jenkins:
+  securityRealm:
+    local:
+      allowsSignup: false
+  # BADDDDDDDDDD!!!!
+  authorizationStrategy: unsecured
+  numExecutors: 0
+  # nodes:
+  # - permanent:
+  #     launcher:
+  #       ssh:
+  #         credentialsId: "some-credentials"
+  #         host: "host-name"
+  #         port: 22
+  #         sshHostKeyVerificationStrategy: "nonVerifyingKeyVerificationStrategy"
+  #     name: "my-special-agent"
+  #     numExecutors: 8
+  #     remoteFS: "/home/jenkins/jenkinsws"
+  #     retentionStrategy: "always"
+  #     nodeProperties:
+  #     - envVars:
+  #         env:
+  #         - key: "Path+Something"
+  #           value: "/add/some/path"  
+  
+unclassified:
+  location:
+    adminAddress: jlarfors@verifa.io
+    url: http://localhost/jenkins
+
+# jobs:
+#   - file: /usr/local/seedjob.groovy

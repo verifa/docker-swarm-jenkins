@@ -1,0 +1,7 @@
+configuration-as-code
+job-dsl
+bitbucket-oauth
+cloudbees-bitbucket-branch-source
+blueocean
+
+ssh-slaves
