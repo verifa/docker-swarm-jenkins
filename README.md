@@ -7,7 +7,7 @@
 docker swarm init
 
 # sensitive passwords should not be stored here...
-printf "<PASSWORD>" | docker secret create jlarfors-bitbucket-app-password
+printf "example-password" | docker secret create example-password-v1 -
 ```
 
 ## SSH Keys
